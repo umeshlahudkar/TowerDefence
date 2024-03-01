@@ -22,8 +22,11 @@ namespace Core.Input
 		/// Pan speed for RMB panning
 		/// </summary>
 		public float mouseRmbPanSpeed = 15f;
-		
-		
+
+		public bool canDoScreenEdgePan = false;
+		private Vector2 previousMousePosition;
+
+
 		/// <summary>
 		/// Gets whether the scheme should be activated or not
 		/// </summary>
@@ -100,7 +103,15 @@ namespace Core.Input
 		{
 			if (cameraRig != null)
 			{
-				DoScreenEdgePan();
+				if(canDoScreenEdgePan)
+                {
+					DoScreenEdgePan();
+				}
+				else
+                {
+					DoMiddleMousePan();
+				}
+
 				DoKeyboardPan();
 				DecayZoom();
 			}
@@ -155,6 +166,46 @@ namespace Core.Input
 			if (mouseInside)
 			{
 				PanWithScreenCoordinates(mousePos, screenPanThreshold, mouseEdgePanSpeed);
+			}
+		}
+
+		/// <summary>
+		/// Perform mouse scroll click + drag panning
+		/// </summary>
+		protected void DoMiddleMousePan()
+        {
+			Vector2 mousePos = UnityInput.mousePosition;
+			bool mouseInside = (mousePos.x >= 0) &&
+							   (mousePos.x < Screen.width) &&
+							   (mousePos.y >= 0) &&
+							   (mousePos.y < Screen.height);
+
+			if (mouseInside && UnityInput.GetMouseButtonDown(2))
+			{
+				previousMousePosition = mousePos;
+			}
+			else if (mouseInside && UnityInput.GetMouseButton(2))
+			{
+				Vector2 currentMousePos = mousePos;
+				float distance = Vector2.Distance(currentMousePos, previousMousePosition);
+
+				if (distance > 1)
+				{
+					float zoomRatio = GetPanSpeedForZoomLevel();
+
+					float mouseX = Mathf.Abs(currentMousePos.x - previousMousePosition.x) > Mathf.Abs(currentMousePos.y - previousMousePosition.y) ?
+						Mathf.Sign(currentMousePos.x - previousMousePosition.x) : 0;
+					float mouseY = Mathf.Abs(currentMousePos.y - previousMousePosition.y) > Mathf.Abs(currentMousePos.x - previousMousePosition.x) ?
+						Mathf.Sign(currentMousePos.y - previousMousePosition.y) : 0;
+
+					Vector3 panDirection = new Vector3(mouseX, 0, mouseY);
+
+					cameraRig.PanCamera(panDirection * Time.deltaTime * mouseEdgePanSpeed * zoomRatio);
+
+					cameraRig.StopTracking();
+
+					previousMousePosition = currentMousePos;
+				}
 			}
 		}
 
