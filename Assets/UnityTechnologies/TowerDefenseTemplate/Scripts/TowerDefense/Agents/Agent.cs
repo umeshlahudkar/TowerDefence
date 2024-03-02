@@ -144,6 +144,11 @@ namespace TowerDefense.Agents
 			m_CurrentNode = node;
 		}
 
+		public Node GetCurrentNode()
+        {
+			return m_CurrentNode;
+        }
+
 		/// <summary>
 		/// Stops the navMeshAgent and attempts to return to pool
 		/// </summary>
