@@ -16,7 +16,8 @@ namespace Core.Utilities
 		/// <summary>
 		/// The time
 		/// </summary>
-		float m_Time, m_CurrentTime;
+		float m_Time; 
+		protected float m_CurrentTime;
 
 		/// <summary>
 		/// Normalized progress of the timer

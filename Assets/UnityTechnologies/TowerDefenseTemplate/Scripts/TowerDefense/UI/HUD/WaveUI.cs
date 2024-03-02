@@ -1,4 +1,5 @@
-﻿using TowerDefense.Level;
+﻿using System;
+using TowerDefense.Level;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,8 @@ namespace TowerDefense.UI.HUD
 		public Text display;
 
 		public Image waveFillImage;
+
+		public Text timeDisplay;
 
 		/// <summary>
 		/// The total amount of waves for this level
@@ -51,6 +54,10 @@ namespace TowerDefense.UI.HUD
 		protected virtual void Update()
 		{
 			waveFillImage.fillAmount = LevelManager.instance.waveManager.waveProgress;
+
+			TimeSpan timeSpan = TimeSpan.FromSeconds(LevelManager.instance.elapcedTimeSinceFirstWave);
+			string formattedTime = string.Format("{0:00}:{1:00}", (int)timeSpan.TotalMinutes, timeSpan.Seconds);
+			timeDisplay.text = formattedTime;
 		}
 
 		/// <summary>

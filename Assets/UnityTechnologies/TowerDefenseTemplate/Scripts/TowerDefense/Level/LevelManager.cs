@@ -118,6 +118,14 @@ namespace TowerDefense.Level
 		/// </summary>
 		public event Action homeBaseDestroyed;
 
+
+		private TimeElapcedTimer timeElapcedTimer;
+
+		public float elapcedTimeSinceFirstWave
+		{
+			get { return timeElapcedTimer.currentTime; }
+		}
+
 		/// <summary>
 		/// Increments the number of enemies. Called on Agent spawn
 		/// </summary>
@@ -202,6 +210,8 @@ namespace TowerDefense.Level
 			{
 				homeBases[i].died += OnHomeBaseDestroyed;
 			}
+
+			timeElapcedTimer = new TimeElapcedTimer(0);
 		}
 
 		/// <summary>
@@ -213,6 +223,12 @@ namespace TowerDefense.Level
 			    (!alwaysGainCurrency && levelState != LevelState.Building && levelState != LevelState.Intro))
 			{
 				currencyGainer.Tick(Time.deltaTime);
+			}
+
+			if (levelState != LevelState.Lose && levelState != LevelState.Win && 
+				(levelState != LevelState.SpawningEnemies || levelState != LevelState.AllEnemiesSpawned))
+			{
+				timeElapcedTimer.Tick(Time.deltaTime);
 			}
 		}
 
@@ -346,6 +362,11 @@ namespace TowerDefense.Level
 			{
 				levelFailed();
 			}
+		}
+
+		private void ResetElapcedTimer()
+		{
+			timeElapcedTimer.Reset();
 		}
 	}
 }
