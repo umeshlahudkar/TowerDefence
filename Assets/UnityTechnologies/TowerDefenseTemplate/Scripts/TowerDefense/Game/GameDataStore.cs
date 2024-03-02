@@ -35,17 +35,18 @@ namespace TowerDefense.Game
 		/// </summary>
 		/// <param name="levelId">The levelId to mark as complete</param>
 		/// <param name="starsEarned">Stars earned</param>
-		public void CompleteLevel(string levelId, int starsEarned)
+		public void CompleteLevel(string levelId, int starsEarned, float elapcedTime)
 		{
 			foreach (LevelSaveData level in completedLevels)
 			{
 				if (level.id == levelId)
 				{
 					level.numberOfStars = Mathf.Max(level.numberOfStars, starsEarned);
+					level.AddElapcedTime(elapcedTime);
 					return;
 				}
 			}
-			completedLevels.Add(new LevelSaveData(levelId, starsEarned));
+			completedLevels.Add(new LevelSaveData(levelId, starsEarned, elapcedTime));
 		}
 
 		/// <summary>
@@ -78,6 +79,18 @@ namespace TowerDefense.Game
 				}
 			}
 			return 0;
+		}
+
+		public float[] GetElapcedTimesForLevel(string levelId)
+        {
+			foreach (LevelSaveData level in completedLevels)
+			{
+				if (level.id == levelId)
+				{
+					return level.bestElapcedTimes;
+				}
+			}
+			return null;
 		}
 	}
 }

@@ -44,6 +44,8 @@ namespace TowerDefense.UI
 		/// </summary>
 		public ScorePanel scorePanel;
 
+		public TimeElapcedPanel timeElapcedPanel;
+
 		/// <summary>
 		/// Name of level select screen
 		/// </summary>
@@ -160,8 +162,9 @@ namespace TowerDefense.UI
 			if (level != null) 
 			{
 				endGameMessageText.text = string.Format (endResultText, level.name.ToUpper ());
-				GameManager.instance.CompleteLevel (level.id, score);
-			} 
+				GameManager.instance.CompleteLevel (level.id, score, LevelManager.instance.elapcedTimeSinceFirstWave);
+				timeElapcedPanel.SetTimes(GameManager.instance.GetTimeElapcedTimesForLevel(level.id));
+			}
 			else 
 			{
 				// If the level is not in LevelList, we should just use the name of the scene. This will not store the level's score.

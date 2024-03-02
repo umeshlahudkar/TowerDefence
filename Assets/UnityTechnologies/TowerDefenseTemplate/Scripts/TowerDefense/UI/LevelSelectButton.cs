@@ -1,4 +1,5 @@
 ﻿using Core.Game;
+using System;
 using TowerDefense.Game;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,6 +25,8 @@ namespace TowerDefense.UI
 		public Text titleDisplay;
 		
 		public Text description;
+
+		public Text bestTimeText;
 
 		public Sprite starAchieved;
 
@@ -78,6 +81,15 @@ namespace TowerDefense.UI
 			for (int i = 0; i < starsForLevel; i++)
 			{
 				stars[i].sprite = starAchieved;
+			}
+
+			float[] elapced = gameManager.GetTimeElapcedTimesForLevel(m_Item.id);
+
+			if(elapced != null)
+            {
+				TimeSpan timeSpan = TimeSpan.FromSeconds(elapced[0]);
+				string formattedTime = string.Format("{0:00}:{1:00}", (int)timeSpan.TotalMinutes, timeSpan.Seconds);
+				bestTimeText.text = formattedTime;
 			}
 		}
 

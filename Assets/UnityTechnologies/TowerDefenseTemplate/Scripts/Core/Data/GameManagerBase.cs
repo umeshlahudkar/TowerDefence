@@ -117,6 +117,7 @@ namespace Core.Data
 			// If it is in Unity Editor use the standard JSON (human readable for debugging) otherwise encrypt it for deployed version
 #if UNITY_EDITOR
 			m_DataSaver = new JsonSaver<TDataStore>(k_SavedGameFile);
+			//m_DataSaver.Delete();
 #else
 			m_DataSaver = new EncryptedJsonSaver<TDataStore>(k_SavedGameFile);
 #endif

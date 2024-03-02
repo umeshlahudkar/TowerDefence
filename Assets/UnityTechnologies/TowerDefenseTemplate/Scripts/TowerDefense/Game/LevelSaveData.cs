@@ -11,10 +11,32 @@ namespace TowerDefense.Game
 		public string id;
 		public int numberOfStars;
 
-		public LevelSaveData(string levelId, int numberOfStarsEarned)
+		public float[] bestElapcedTimes;
+
+		public LevelSaveData(string levelId, int numberOfStarsEarned, float elapcedTime)
 		{
 			id = levelId;
 			numberOfStars = numberOfStarsEarned;
+
+			bestElapcedTimes = new float[] {0, 0, 0, 0, 0};
+			bestElapcedTimes[0] = elapcedTime;
+		}
+
+		public void AddElapcedTime(float elapsedtime)
+        {
+			int insertIndex = 0;
+
+			while (insertIndex < bestElapcedTimes.Length && elapsedtime < bestElapcedTimes[insertIndex])
+			{
+				insertIndex++;
+			}
+
+			for (int i = bestElapcedTimes.Length - 1; i > insertIndex; i--)
+			{
+				bestElapcedTimes[i] = bestElapcedTimes[i - 1];
+			}
+
+			bestElapcedTimes[insertIndex] = elapsedtime;
 		}
 	}
 }
