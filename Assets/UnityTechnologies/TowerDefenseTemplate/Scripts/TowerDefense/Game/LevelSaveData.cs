@@ -22,6 +22,10 @@ namespace TowerDefense.Game
 			bestElapcedTimes[0] = elapcedTime;
 		}
 
+		/// <summary>
+		/// adds new elapced element in the decresing order
+		/// </summary>
+		/// <param name="elapsedtime"></param>
 		public void AddElapcedTime(float elapsedtime)
         {
 			int insertIndex = 0;
