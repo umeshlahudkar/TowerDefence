@@ -23,6 +23,9 @@ namespace Core.Input
 		/// </summary>
 		public float mouseRmbPanSpeed = 15f;
 
+		/// <summary>
+		/// to enable auto screen pan
+		/// </summary>
 		public bool canDoScreenEdgePan = false;
 		private Vector2 previousMousePosition;
 
