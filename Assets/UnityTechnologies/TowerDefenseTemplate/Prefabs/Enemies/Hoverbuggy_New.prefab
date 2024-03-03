@@ -44315,7 +44315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d007c1fe5e41c1888e4af3392f8676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialPoolCapacity: 10
+  initialPoolCapacity: 2
 --- !u!136 &5478552816665109371
 CapsuleCollider:
   m_ObjectHideFlags: 0
